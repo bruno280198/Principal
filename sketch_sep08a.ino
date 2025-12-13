@@ -1,28 +1,44 @@
-#define boton 7
-#define led 9
-#define pote A0
+#define in1 12
+#define in2 13
 
+#define boton_in1 7
+#define boton_in2 8
+
+#define trig 9
+#define echo 10
 void setup(){
-Serial.begin (115200);
-pinMode (pote, INPUT);
-pinMode (boton, INPUT);
-pinMode (led, OUTPUT);
+Serial.begin (9600);
+pinMode (trig, OUTPUT); 
+pinMode (echo, INPUT);
+
+pinMode (in1, OUTPUT);
+pinMode (in2, OUTPUT);
+
+pinMode (boton_in1, INPUT_PULLUP);
+pinMode (boton_in2, INPUT_PULLUP);
+
+
 }
 
-void loop()
-{
-if (digitalRead (boton)){
-  Serial.println ("Ya precionaste el boton, el led deveria encenderse");
-  digitalWrite (led, 1);
-  delay (2000);
-  Serial.print ("el valor leido en bit es:");
-  Serial.println (analogRead (pote));
-  float tension = analogRead (pote)*5/1023.0;
-  Serial.print ("El valor leido en tension es:");
-  Serial.println (tension);
-  delay (200);
-  }
-  else 
-  digitalWrite (led, 0);
-
+void loop(){
+  digitalWrite (trig, LOW);
+  delayMicroseconds (20);
+  digitalWrite (trig, HIGH);
+  delayMicroseconds (10);
+  digitalWrite (trig, LOW);
+  long duracion = pulseIn (echo, HIGH);
+  float distancia = duracion *0.034/2;
+  Serial.print ("Distancia: ");
+  Serial.print (distancia);
+  Serial.println (" Centimetros");
+  delay (500);
+  
+if (digitalRead (boton_in1) == 1){
+  digitalWrite (in1, 1);
+  digitalWrite (in2, 0);
+}
+if (digitalRead (boton_in2) == 1){
+  digitalWrite (in1, 0);
+  digitalWrite (in2, 1);
+}
 }
