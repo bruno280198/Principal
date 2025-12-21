@@ -33,12 +33,17 @@ void loop(){
   Serial.println (" Centimetros");
   delay (500);
   
-if (digitalRead (boton_in1) == 1){
+if (digitalRead (boton_in1) == 0){
   digitalWrite (in1, 1);
   digitalWrite (in2, 0);
 }
-if (digitalRead (boton_in2) == 1){
+else if (digitalRead (boton_in2) == 0){
   digitalWrite (in1, 0);
   digitalWrite (in2, 1);
 }
+else {
+  digitalWrite (in1, 0);
+  digitalWrite (in2, 0);
 }
+}
+
